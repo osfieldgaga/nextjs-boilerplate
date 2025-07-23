@@ -9,9 +9,9 @@ A Next.js Starter Kit to build your idea with all you need to `earn $ in 1 hour`
 - ☀️ Free
 - 👁️ [Landing page](https://nextjsboilerplate-blue.vercel.app/)
 - 🔑 [Google SSO](https://nextjsboilerplate-blue.vercel.app/login) (NextAuth)
-- 💰 Stripe for payments
+- 💰 Stripe/Dodo Payments for payments
 - 📂 Postgres with Prisma 
-- 📈 Google Analytics
+- 📈 Google Analytics & PostHog ⏳
 - 📱 Responsive
 - 📧 Mailgun
 - 📦 SEO ⏳

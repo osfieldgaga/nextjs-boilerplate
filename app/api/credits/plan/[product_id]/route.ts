@@ -1,21 +1,17 @@
 import { NextRequest, NextResponse } from "next/server";
 
-export async function POST(request: NextRequest) {
+export async function GET(request: NextRequest, { params }: { params: { product_id: string } }) {
 
     try {
-        const body: { paymentId: string } = await request.json();
+        // const body: { productId: string } = await request.json();
+        console.log("params:", params);
+        const { product_id } = params;
+        console.log("Fetching credit plan:", product_id);
+
         // console.log("Request body:", body);
 
-        // console.log("api call", {
-        //     method: "GET",
-        //     headers: {
-        //         "Content-Type": "application/json",
-        //         Authorization: `Bearer ${process.env.DODO_API_KEY}`
-        //     }
-        // })
-
         const response = await fetch(
-            `${process.env.NEXT_PUBLIC_DODO_TEST_API}/payments/${body.paymentId}`,
+            `${process.env.NEXT_PUBLIC_DODO_TEST_API}/products/${product_id}`,
             // `https://test.dodopayments.com/payments/pay_6vGlmf5SE56E5AHDLDhVz`,
             {
                 method: "GET",
@@ -29,15 +25,18 @@ export async function POST(request: NextRequest) {
 
         if (!response.ok) {
             return NextResponse.json(
-                { error: "Coudn't check payment", details: responseText },
+                { error: "Coudn't get product from Dodo", details: responseText },
                 { status: response.status }
             );
         }
 
         const data = JSON.parse(responseText);
-        return NextResponse.json({ payment_details: data });
+        return NextResponse.json({
+            name: data.name, price: data.price.price, productId: data.id, description: data.description, image: data.image, currency: data.currency
+
+        });
     } catch (e) {
-        console.error("Error in GET /api/payment/payment_details:", e);
+        console.error("Error in GET /api/credits/plans:", e);
         return NextResponse.json(
             { error: "Internal server error", details: e },
             { status: 500 }

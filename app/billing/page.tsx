@@ -8,6 +8,7 @@ import { GetUserCompany } from '@/domain/user/use-case';
 // import { showToast } from '../lib/utils';
 import { ValidateCreditsResponse } from '../api/payment/validate_credits/route';
 import Toast from '../ui/toast';
+import { CreditsRepository } from '@/domain/credits/credits.repository';
 
 export default async function Page({ searchParams }: { searchParams: { [key: string]: string } }) {
   const user = await auth();
@@ -15,6 +16,8 @@ export default async function Page({ searchParams }: { searchParams: { [key: str
   const payment_id = searchParams['payment_id']
 
   const baseUrl = process.env.NEXT_PUBLIC_BASE_URL || '';
+
+  await new CreditsRepository().getCreditPlans();
 
   let creditAdded = false;
   let creditAddedMessage = "";
@@ -26,13 +29,6 @@ export default async function Page({ searchParams }: { searchParams: { [key: str
   //if so, validate the credits for the user, add them to the user account
   if (payment_id) {
     try {
-      // Fetch companyId from user object, assuming it's stored in user.user.companyId
-
-
-      console.log('addCredits', {
-        paymentId: payment_id,
-        companyId: company?.id
-      });
       const addCredits = await axios.post(`${baseUrl}/api/payment/validate_credits`, {
         paymentId: payment_id,
         companyId: company?.id
@@ -116,7 +112,7 @@ export default async function Page({ searchParams }: { searchParams: { [key: str
         </div>
 
         <SubscribeComponent
-          productId="pdt_t6s8B49ZfoYMq5ZSpuX6j"
+          productId="pdt_RIYJipUVVhaSBkDrT887f"
         />
       </div>
 
