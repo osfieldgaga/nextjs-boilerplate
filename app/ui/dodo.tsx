@@ -1,14 +1,16 @@
 'use client';
+import clsx from 'clsx';
 // import axios from 'axios';
-import { Button } from './button';
+import { Button } from './button_2';
 // import { stripeInstance } from '@/infra/stripe';
 import { DodoPayments } from 'dodopayments-checkout';
 
 type props = {
   productId: string;
+  text: string;
 };
 
-const SubscribeComponent = ({productId}: props) => {
+const CheckoutComponent = ({productId, text}: props) => {
 
   // Initialize the SDK
   DodoPayments.Initialize({
@@ -45,10 +47,14 @@ const SubscribeComponent = ({productId}: props) => {
       {/* Click Below button to get {description} */}
       <Button
         onClick={handleSubmit}
+        className={clsx(
+          "w-full text-center",
+
+        )}
       >
-        Upgrade
+        {text}
       </Button>
     </div>
   );
 };
-export default SubscribeComponent;
+export default CheckoutComponent;

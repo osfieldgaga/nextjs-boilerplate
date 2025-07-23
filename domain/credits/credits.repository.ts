@@ -22,12 +22,6 @@ export class CreditsRepository implements CreditsPort {
 
         console.log('Fetched credit plans:', plans);
 
-        return creditPlans.map(plan => ({
-            id: plan.id,
-            credits: plan.credits,
-            productId: plan.productId || "",
-            createdAt: plan.createdAt ? new Date(plan.createdAt) : undefined,
-            updatedAt: plan.updatedAt ? new Date(plan.updatedAt) : undefined
-        }));
+        return plans;
     }
 }
