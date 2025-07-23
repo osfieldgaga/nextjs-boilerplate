@@ -97,3 +97,11 @@ model CreditTransaction {
   updatedAt          DateTime             @default(now()) @updatedAt
   PaymentTransaction PaymentTransaction[]
 }
+
+model CreditPlan {
+  id          String   @id @default(cuid())
+  credits       Int // in cents
+  productId   String? // Dodo product ID for integration
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @default(now()) @updatedAt
+}

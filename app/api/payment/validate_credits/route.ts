@@ -1,4 +1,5 @@
 import { CreditTransaction, VerifyTransaction } from '@/domain/company/use-case';
+import { CreditsRepository } from '@/domain/credits/credits.repository';
 // import { prismaClientGlobal } from '@/infra/prisma';
 import { NextRequest, NextResponse } from 'next/server';
 
@@ -83,7 +84,7 @@ async function verifyDodoPayment(paymentId: string): Promise<DodoPaymentCheckedW
     );
 
     const text = await response.text();
-    // console.log("DodoPayments API response status:", response.status);
+    console.log("DodoPayments API response status:", response.status);
 
     let data: DodoPaymentChecked;
     try {
@@ -92,7 +93,15 @@ async function verifyDodoPayment(paymentId: string): Promise<DodoPaymentCheckedW
         throw new Error(`DodoPayments API did not return valid JSON. Error: ${e}. Status: ${response.status}, Body: ${text}`);
     }
 
-    const credits = 100;
+    const credits = await new CreditsRepository().getCreditPlans()
+        .then(plans => {
+            const plan = plans.find(p => p.productId === data.payment_details.product_cart[0].product_id);
+            return plan ? plan.credits : 0; // Default to 100 if not found
+        })
+        .catch(err => {
+            console.error("Error fetching credit plans:", err);
+            return 0; // Default fallback
+        });
 
     // console.log("DodoPayments API response data:", { ...data, credits });
     return { ...data, credits };

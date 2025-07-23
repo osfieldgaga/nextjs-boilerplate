@@ -1,7 +1,7 @@
 'use client'
 import { Description, Dialog, DialogPanel, DialogTitle } from '@headlessui/react'
 import { useState } from 'react'
-import { Button } from '../ui/button'
+import { Button } from './button_2'
 import { InformationCircleIcon } from '@heroicons/react/24/outline'
 
 export default function Popup(
